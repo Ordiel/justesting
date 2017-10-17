@@ -15,6 +15,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+import uNumberLibrary.UNumber;
+
 public class Task3Baseline
 {
 	/* Holds a recognized accurate representation of the square root of 2 from NASA */
@@ -36,6 +38,10 @@ public class Task3Baseline
 		else                   return "\t\t  ";
 	};
 
+	private static double parse(String doubleAsTxt) {
+		return Double.parseDouble(doubleAsTxt);
+	}
+
 	/*****
 	 * This method computes square root using Newton's Method. This iterative approach starts with an
 	 * estimate of the square root of x (one half of the value of x), and then uses that to compute
@@ -47,7 +53,7 @@ public class Task3Baseline
 	 * @param value
 	 * @return
 	 */
-	public static double computeSquareRoot (double value) {
+	public static UNumber computeSquareRoot (UNumber value) {
 
 		long computeStartTime = System.nanoTime();
 		long computeStopTime = 0;
@@ -58,10 +64,10 @@ public class Task3Baseline
 
 
 		// This is the initial guess
-		double oldGuess = value/2.0;
+		UNumber oldGuess = new UNumber(Double.parseDouble(value.toDecimalString())/2.0);
 
 		// We set up the newGuess to be the same as the guess
-		double newGuess = oldGuess;
+		UNumber newGuess = oldGuess;
 
 		// Initialize the loop iteration counter
 		int iteration = 0;
@@ -72,11 +78,11 @@ public class Task3Baseline
 			iteration++;						// Keep track of the number of iterations
 
 			oldGuess = newGuess;				// The oldGuess was the previous newGuess
-
-			newGuess = (value/oldGuess + oldGuess) / 2;
+			
+			newGuess = new UNumber((parse(value.toDecimalString())/parse(oldGuess.toDecimalString()) + parse(oldGuess.toDecimalString())) / 2);
 
 			// Compare the NASA value with what we have produced so far
-			answer = ((Double)newGuess).toString();
+			answer = newGuess.toString();
 			diff = answer.length();
 			if (diff > checkNumber.length()) diff = checkNumber.length();
 			for (int i = 0; i < answer.length() && i < checkNumber.length(); i++)
@@ -129,7 +135,7 @@ public class Task3Baseline
 
 		// Compute the square root of 2
 		System.out.println("Square Root of 2 using Newton's method with double values:");
-		double result = computeSquareRoot(2.0);
+		UNumber result = computeSquareRoot(new UNumber(2.0));
 		System.out.print("The square root approximation returned is: ");
 		System.out.println(result);
 	}	
