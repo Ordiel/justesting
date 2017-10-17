@@ -29,7 +29,26 @@ public class Recognizer {
 	 * @return		The Boolean value of whether or not the input is a valid UNumber
 	 */
 	private static boolean hasUNumberState6(String s, int ndx) {
-			return false;	// Replace this line with a recognizer for states 6, 7, and 8
+		//Stage 6
+		if (s.charAt(ndx) == '+' || s.charAt(ndx) == '-') {				// If a + or - sign exists in the given String
+			ndx++;														// Accept it and proceed to State 7
+			//State 7
+			if (s.charAt(ndx) >= '0' && s.charAt(ndx) <= '9') {				// If the character at this index is a digit
+				ndx++;													// transition to State 8
+				//State 8												// Accept the digit 
+				while (s.charAt(ndx) >= '0' && s.charAt(ndx) <= '9') ndx++;	// and skip as many as there are
+				if (ndx + 1 == s.length()) return true;					// End of State 8 with no digit and at sentinel done and return true
+				else return false; 										// otherwise, error and return false
+			}
+			else return false;											// This is an error
+		} else if (s.charAt(ndx) >= '0' && s.charAt(ndx) <= '9') {			// If character at this index is a digit
+			//State 8													// Accept it, State 8 starts
+			ndx = 8;													
+			while (s.charAt(ndx) >= '0' && s.charAt(ndx) <= '9') ndx++;		// and skip as many as there are
+			if (ndx + 1 == s.length()) return true;						// End of State 8 with no digit and at sentinel done and return true
+			else return false; 											// otherwise, error and return false
+		}
+		else return false;												// This is an error
 	}																
 	
 	/**********
