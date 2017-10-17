@@ -2,6 +2,8 @@ package task2;
 
 import java.util.Scanner;
 
+import uNumberLibrary.UNumber;
+
 /**
  * <p>
  * Title: Task2
@@ -23,7 +25,7 @@ public class Task2Basline {
 	public static void main (String [] args) {
 		// Initialize key values
 		int numberOfValues = 0;
-		double sum = 0.0;
+		UNumber sum = new UNumber(0.0);
 		
 		// Set up keyboard as a Scanner object using the console keyboard for input
 		Scanner keyboard = new Scanner(System.in);
@@ -45,7 +47,7 @@ public class Task2Basline {
 				
 				// If so, convert it to a double, add it to the sum, and count it
 				double inputValue = value.nextDouble();
-				sum += inputValue;
+				sum = new UNumber(Double.parseDouble(sum.toDecimalString()) + inputValue);
 				numberOfValues++;
 			}
 			else
@@ -63,7 +65,7 @@ public class Task2Basline {
 		System.out.println("Empty line detected... the loop stops");
 		System.out.println("The sum is: " + sum);
 		System.out.println("The number of values is: " + numberOfValues);
-		System.out.println("The average is: " + (sum / numberOfValues));
+		System.out.println("The average is: " + (Double.parseDouble(sum.toDecimalString()) / numberOfValues));
 		keyboard.close();
 	}
 }
