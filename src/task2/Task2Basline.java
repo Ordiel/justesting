@@ -2,6 +2,7 @@ package task2;
 
 import java.util.Scanner;
 
+import task1.Recognizer;
 import uNumberLibrary.UNumber;
 
 /**
@@ -41,13 +42,14 @@ public class Task2Basline {
 		
 		// As long as the length of the input String is positive, continue processing the input
 		while (input.length() > 0) {
-			Scanner value = new Scanner(input);
 			// Does this input line consist of a valid floating point value?
-			if (value.hasNextDouble()) {
+			if (Recognizer.hasUNumber(input)) {
 				
 				// If so, convert it to a double, add it to the sum, and count it
-				double inputValue = value.nextDouble();
-				sum = new UNumber(Double.parseDouble(sum.toDecimalString()) + inputValue);
+				int dotLocation = input.contains(".") ? input.indexOf('.') : input.length();
+				boolean isSigned = input.charAt(0) == '-' || input.charAt(0) == '+';
+				UNumber parsedInput = new UNumber(input, dotLocation, isSigned);
+				sum.add(parsedInput);
 				numberOfValues++;
 			}
 			else
@@ -58,14 +60,15 @@ public class Task2Basline {
 			// Ask for more input
 			System.out.print("Enter a floating point value or just press return (enter) to stop the loop: ");
 			input = keyboard.nextLine().trim();
-			value.close();
 		}
 		
 		// An empty input line has been entered, so the tell the user we are stopping
 		System.out.println("Empty line detected... the loop stops");
 		System.out.println("The sum is: " + sum);
 		System.out.println("The number of values is: " + numberOfValues);
-		System.out.println("The average is: " + (Double.parseDouble(sum.toDecimalString()) / numberOfValues));
+		sum.div(new UNumber(numberOfValues));
+		System.out.print("The average is: ");
+		sum.displayBigNumber();
 		keyboard.close();
 	}
 }
